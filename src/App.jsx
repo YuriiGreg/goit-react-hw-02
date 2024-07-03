@@ -1,28 +1,67 @@
-import React from 'react';
-import Profile from './components/Profile/Profile';
-import FriendList from './components/FriendList/FriendList';
-import TransactionHistory from './components/TransactionHistory/TransactionHistory';
-import userData from './userData.json';
-import friends from './friends.json';
-import transactions from './transactions.json';
+import React, { useState, useEffect } from 'react';
+import Feedback from './components/Feedback/Feedback';
+import Options from './components/Options/Options';
+import Notification from './components/Notification/Notification';
+import styles from './App.module.css';
 
 const App = () => {
+  const [feedback, setFeedback] = useState({
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  });
+
+  useEffect(() => {
+    const savedFeedback = localStorage.getItem('feedback');
+    if (savedFeedback) {
+      setFeedback(JSON.parse(savedFeedback));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('feedback', JSON.stringify(feedback));
+  }, [feedback]);
+
+  const updateFeedback = feedbackType => {
+    setFeedback(prevFeedback => ({
+      ...prevFeedback,
+      [feedbackType]: prevFeedback[feedbackType] + 1,
+    }));
+  };
+
+  const resetFeedback = () => {
+    setFeedback({
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    });
+  };
+
+  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+  const positiveFeedbackPercentage = totalFeedback
+    ? Math.round((feedback.good / totalFeedback) * 100)
+    : 0;
+
   return (
-    <div>
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
+    <div className={styles.app}>
+      <h1>Sip Happens Café</h1>
+      <p>Please leave your feedback about our service by selecting one of the options below.</p>
+      <Options
+        updateFeedback={updateFeedback}
+        resetFeedback={resetFeedback}
+        totalFeedback={totalFeedback}
       />
-      <FriendList friends={friends} />
-      <TransactionHistory items={transactions} />
+      {totalFeedback > 0 ? (
+        <Feedback
+          feedback={feedback}
+          totalFeedback={totalFeedback}
+          positiveFeedbackPercentage={positiveFeedbackPercentage}
+        />
+      ) : (
+        <Notification message="No feedback given" />
+      )}
     </div>
   );
 };
 
 export default App;
-
-
-
