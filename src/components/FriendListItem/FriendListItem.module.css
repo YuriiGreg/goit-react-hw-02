@@ -1,0 +1,17 @@
+.friendListItem {
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.online {
+    color: green;
+}
+
+.offline {
+    color: red;
+}
