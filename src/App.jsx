@@ -3,6 +3,7 @@ import Feedback from './components/Feedback/Feedback';
 import Options from './components/Options/Options';
 import Notification from './components/Notification/Notification';
 import styles from './App.module.css';
+import coffeeCupImage from './assets/coffee-cup.png';
 
 const App = () => {
   const [feedback, setFeedback] = useState({
@@ -60,6 +61,9 @@ const App = () => {
       ) : (
         <Notification message="No feedback given" />
       )}
+      <div className={styles.imageContainer}>
+        <img src={coffeeCupImage} alt="Coffee Cup" className={styles.coffeeImage} />
+      </div>
     </div>
   );
 };
