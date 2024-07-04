@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Feedback from './components/Feedback/Feedback';
 import Options from './components/Options/Options';
 import Notification from './components/Notification/Notification';
+import Description from './components/Description/Description';
 import styles from './App.module.css';
 import coffeeCupImage from './assets/coffee-cup.png';
 
@@ -45,8 +46,7 @@ const App = () => {
 
   return (
     <div className={styles.app}>
-      <h1>Sip Happens Café</h1>
-      <p>Please leave your feedback about our service by selecting one of the options below.</p>
+      <Description/>
       <Options
         updateFeedback={updateFeedback}
         resetFeedback={resetFeedback}
